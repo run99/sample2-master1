@@ -62,6 +62,9 @@ class ListActivity : AppCompatActivity() {
             thread { db.profileDao().insert(profile) }
         }
 
+
+        viewAdapter.notifyDataSetChanged()
+
         scanButton.setOnClickListener {
             IntentIntegrator(this).initiateScan()
         }
@@ -87,12 +90,14 @@ class ListActivity : AppCompatActivity() {
                         it.twitter = i.twitter
                     }
                     dataList.add(data)
+                    viewAdapter = ViewAdapter(dataList, this, this)
+
                 }
             } else {
                 Toast.makeText(this, "データは入っていません", Toast.LENGTH_LONG).show()
             }
             //二回目以降のデータ更新を通知
-           recyclerView.adapter?.notifyDataSetChanged()
+           viewAdapter.notifyDataSetChanged()
         })
 
         return dataList
@@ -168,6 +173,7 @@ class ListActivity : AppCompatActivity() {
         thread {
             db.profileDao().delete(profile)
         }
+        viewAdapter.notifyDataSetChanged()
 
     }*/
 
